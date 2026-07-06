@@ -1,26 +1,156 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #0d130d;
+  --bg-secondary: #121a12;
+  --bg-chat: #141c14;
+  --bg-message: #1a231a;
+  --text-primary: #c8e6c8;
+  --text-secondary: #6b8f6b;
+  --border-color: #1e2e1e;
+  --phosphor: #a8d8a8;
+  --phosphor-bright: #d4f5d4;
+  --phosphor-glow: rgba(100, 220, 100, 0.15);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* Phosphor glow on text */
+h1, h2, h3, h4, h5 {
+  text-shadow:
+    0 0 8px rgba(100, 220, 100, 0.5),
+    0 0 20px rgba(100, 220, 100, 0.2);
+}
+
+/* CRT flicker */
+@keyframes flicker {
+  0%   { opacity: 1; }
+  2%   { opacity: 0.96; }
+  4%   { opacity: 1; }
+  19%  { opacity: 1; }
+  21%  { opacity: 0.97; }
+  23%  { opacity: 1; }
+  80%  { opacity: 1; }
+  82%  { opacity: 0.98; }
+  84%  { opacity: 1; }
+}
+
+/* Scan line scroll */
+@keyframes scanroll {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.crt-content {
+  animation: flicker 8s infinite;
+}
+
+/* CRT scan lines overlay */
+.crt-scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
+  );
+}
+
+/* CRT vignette */
+.crt-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 65%,
+    rgba(0, 0, 0, 0.3) 90%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* CRT grain */
+.crt-grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(2) infinite;
+}
+
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, -3%); }
+  50%  { transform: translate(3%, 2%); }
+  75%  { transform: translate(-1%, 4%); }
+  100% { transform: translate(2%, -1%); }
+}
+
+/* Glowing moving scan bar */
+.crt-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 9996;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(100, 220, 100, 0.03) 50%,
+    transparent
+  );
+  animation: scanroll 10s linear infinite;
+}
+
+/* Screen curvature simulation */
+.crt-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9995;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 120px rgba(0, 0, 0, 0.5),
+    inset 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a4a2a; border-radius: 2px; }
+
+/* Input phosphor style */
+input, textarea {
+  caret-color: #6ddf6d;
+}
+
+input::placeholder {
+  color: var(--text-secondary) !important;
 }
