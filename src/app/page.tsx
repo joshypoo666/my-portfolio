@@ -300,7 +300,7 @@ function StuffView() {
   );
 }
 
-const views: Record<string, () => JSX.Element> = {
+const views: Record<string, () => ReactElement> = {
   chat: ChatView,
   work: WorkView,
   about: AboutView,
