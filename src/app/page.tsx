@@ -87,7 +87,7 @@ function ChatView() {
   );
 }
 
-const workTabs = ["UX", "Graphic Design", "Motion", "Photography"] as const;
+const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, { title: string; category: string; year: string }[]> = {
   UX: [
@@ -113,6 +113,12 @@ const workProjects: Record<string, { title: string; category: string; year: stri
     { title: "Portrait Series", category: "Portrait", year: "2024" },
     { title: "Street Photography", category: "Documentary", year: "2023" },
     { title: "Event Coverage", category: "Events", year: "2023" },
+  ],
+  Failures: [
+    { title: "App That Never Shipped", category: "Lesson Learned", year: "2023" },
+    { title: "Rebrand Nobody Wanted", category: "Client Work", year: "2022" },
+    { title: "Over-Engineered Website", category: "Side Project", year: "2022" },
+    { title: "Pitch That Got Rejected", category: "Proposal", year: "2021" },
   ],
 };
 
