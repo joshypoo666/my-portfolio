@@ -319,32 +319,46 @@ export default function Home() {
         {/* Mobile hamburger */}
         <button
           className="md:hidden p-2 text-[#6b8f6b] hover:text-[#a8d8a8] transition-colors"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
         >
-          {menuOpen ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 12h18M3 6h18M3 18h18" />
-            </svg>
-          )}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 12h18M3 6h18M3 18h18" />
+          </svg>
         </button>
       </header>
 
-      {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="md:hidden bg-[#0d130d] border-b border-[#1e2e1e] px-4 py-2 sticky top-[57px] z-40">
+      {/* Mobile drawer backdrop */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden bg-black/50 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        onClick={() => setMenuOpen(false)}
+      />
+
+      {/* Mobile slide-in drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-[#0d130d] border-l border-[#1e2e1e] z-50 md:hidden flex flex-col transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e2e1e]">
+          <span className="font-semibold text-sm">Menu</span>
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="p-1.5 text-[#6b8f6b] hover:text-[#a8d8a8] transition-colors"
+            aria-label="Close menu"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav className="flex flex-col p-3 gap-1">
           {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => handleNav(link.id)}
-              className={`w-full text-left flex items-center gap-2 px-3 py-3 text-sm rounded-lg transition-colors ${
+              className={`w-full text-left flex items-center gap-2 px-4 py-3 text-sm rounded-lg transition-colors ${
                 activeView === link.id
                   ? "text-[#c8e6c8] bg-[#161c16]"
-                  : "text-[#6b8f6b]"
+                  : "text-[#6b8f6b] hover:text-[#a8d8a8] hover:bg-[#161c16]"
               }`}
             >
               {link.label}
@@ -356,8 +370,8 @@ export default function Home() {
               )}
             </button>
           ))}
-        </div>
-      )}
+        </nav>
+      </div>
 
       {/* Page Content */}
       <main className="flex-1">
