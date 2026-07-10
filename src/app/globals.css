@@ -52,6 +52,48 @@ h1, h2, h3, h4, h5 {
   84%  { opacity: 1; }
 }
 
+/* TV glitch — fires briefly once per cycle */
+@keyframes tvglitch {
+  0%, 82%, 100% {
+    transform: translate(0, 0);
+    filter: none;
+    clip-path: none;
+  }
+  82.3% {
+    transform: translate(-8px, 0);
+    filter: brightness(1.4) saturate(150%);
+    clip-path: inset(8% 0 88% 0);
+  }
+  82.5% {
+    transform: translate(10px, 0);
+    filter: brightness(0.7) hue-rotate(20deg);
+    clip-path: inset(55% 0 38% 0);
+  }
+  82.7% {
+    transform: translate(-5px, 1px);
+    filter: brightness(1.3);
+    clip-path: inset(30% 0 65% 0);
+  }
+  83% {
+    transform: translate(6px, 0);
+    filter: brightness(0.9);
+    clip-path: none;
+  }
+  83.2% {
+    transform: translate(-2px, 0);
+    filter: none;
+  }
+  83.5% {
+    transform: translate(0, 0);
+    filter: none;
+    clip-path: none;
+  }
+}
+
+.glitch-tv {
+  animation: tvglitch 11s steps(1) infinite;
+}
+
 /* Scan line scroll */
 @keyframes scanroll {
   0%   { transform: translateY(-100%); }
