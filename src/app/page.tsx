@@ -44,7 +44,7 @@ const workProjects: Record<string, { title: string; category: string; year: stri
 
 function HomeView({ onNav }: { onNav: (view: string) => void }) {
   return (
-    <div className="glitch-home flex flex-col items-center justify-center min-h-[calc(100vh-57px)] px-6 text-center">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-57px)] px-6 text-center">
       <p className="text-xs tracking-[0.25em] uppercase text-[#6b8f6b] mb-4">
         Designer &amp; Creative Thinker
       </p>
