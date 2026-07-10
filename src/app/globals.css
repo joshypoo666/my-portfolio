@@ -244,6 +244,9 @@ h1, h2, h3, h4, h5 {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #2a4a2a; border-radius: 2px; }
 
+.scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
 /* Input phosphor style */
 input, textarea {
   caret-color: #6ddf6d;

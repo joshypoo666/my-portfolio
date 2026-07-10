@@ -85,12 +85,12 @@ function WorkView() {
       <h2 className="text-3xl font-semibold mb-2">Selected Work</h2>
       <p className="text-[#6b8f6b] mb-8">A collection of projects I&apos;ve worked on.</p>
 
-      <div className="flex gap-1 mb-8 border-b border-[#1e2e1e]">
+      <div className="flex gap-1 mb-8 border-b border-[#1e2e1e] overflow-x-auto scrollbar-none">
         {workTabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2.5 text-sm font-medium transition-colors relative ${
+            className={`flex-shrink-0 px-4 py-2.5 text-sm font-medium transition-colors relative ${
               activeTab === tab
                 ? "text-[#c8e6c8]"
                 : "text-[#4a6a4a] hover:text-[#6b8f6b]"
@@ -270,25 +270,34 @@ const navLinks = [
 
 export default function Home() {
   const [activeView, setActiveView] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const ActiveView = views[activeView];
+
+  const handleNav = (id: string) => {
+    setActiveView(id);
+    setMenuOpen(false);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top Nav */}
-      <header className="flex items-center justify-between px-8 py-4 border-b border-[#1e2e1e] bg-[#0d130d] sticky top-0 z-50">
+      <header className="flex items-center justify-between px-6 py-4 border-b border-[#1e2e1e] bg-[#0d130d] sticky top-0 z-50">
         <button
-          onClick={() => setActiveView("home")}
+          onClick={() => handleNav("home")}
           className="font-semibold text-sm tracking-wide hover:text-[#a8d8a8] transition-colors"
         >
-          Joshua D. Taylor
+          <span className="hidden sm:inline">Joshua D. Taylor</span>
+          <span className="sm:hidden">JDT</span>
         </button>
-        <nav className="flex items-center gap-1">
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <button
               key={link.id}
-              onClick={() => setActiveView(link.id)}
-              className={`px-4 py-2 text-sm rounded-lg transition-colors relative ${
+              onClick={() => handleNav(link.id)}
+              className={`px-4 py-2 text-sm rounded-lg transition-colors ${
                 activeView === link.id
                   ? "text-[#c8e6c8] bg-[#161c16]"
                   : "text-[#6b8f6b] hover:text-[#a8d8a8] hover:bg-[#161c16]"
@@ -306,11 +315,53 @@ export default function Home() {
             </button>
           ))}
         </nav>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden p-2 text-[#6b8f6b] hover:text-[#a8d8a8] transition-colors"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          )}
+        </button>
       </header>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="md:hidden bg-[#0d130d] border-b border-[#1e2e1e] px-4 py-2 sticky top-[57px] z-40">
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => handleNav(link.id)}
+              className={`w-full text-left flex items-center gap-2 px-3 py-3 text-sm rounded-lg transition-colors ${
+                activeView === link.id
+                  ? "text-[#c8e6c8] bg-[#161c16]"
+                  : "text-[#6b8f6b]"
+              }`}
+            >
+              {link.label}
+              {link.id === "classified" && (
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Page Content */}
       <main className="flex-1">
-        <ActiveView onNav={setActiveView} />
+        <ActiveView onNav={handleNav} />
       </main>
     </div>
   );
