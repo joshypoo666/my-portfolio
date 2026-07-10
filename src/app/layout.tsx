@@ -25,6 +25,7 @@ export default function RootLayout({
         <div className="crt-grain" />
         <div className="crt-bar" />
         <div className="crt-wrap" />
+        <div className="crt-glitch-overlay" />
 
         {/* Page content */}
         <div className="crt-content flex flex-col flex-1">

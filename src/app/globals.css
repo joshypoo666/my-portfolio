@@ -52,46 +52,120 @@ h1, h2, h3, h4, h5 {
   84%  { opacity: 1; }
 }
 
-/* TV glitch — fires briefly once per cycle */
-@keyframes tvglitch {
-  0%, 82%, 100% {
-    transform: translate(0, 0);
-    filter: none;
-    clip-path: none;
+/* TV glitch pixel overlay — full-screen light burst */
+@keyframes glitch-pixel-overlay {
+  0%, 74%, 100% { opacity: 0; }
+
+  75% {
+    opacity: 1;
+    background:
+      linear-gradient(transparent 22%, rgba(168,255,168,0.55) 22%, rgba(168,255,168,0.55) 25%, transparent 25%),
+      linear-gradient(transparent 58%, rgba(200,255,200,0.3) 58%, rgba(200,255,200,0.3) 61%, transparent 61%);
+    transform: translateX(-8px);
   }
-  82.3% {
-    transform: translate(-8px, 0);
-    filter: brightness(1.4) saturate(150%);
-    clip-path: inset(8% 0 88% 0);
+  76% {
+    opacity: 1;
+    background:
+      linear-gradient(rgba(200,255,200,0.35) 0%, rgba(200,255,200,0.35) 5%, transparent 5%),
+      linear-gradient(transparent 18%, rgba(168,255,168,0.85) 18%, rgba(168,255,168,0.85) 23%, transparent 23%),
+      linear-gradient(transparent 42%, rgba(200,255,200,0.5) 42%, rgba(200,255,200,0.5) 48%, transparent 48%),
+      linear-gradient(transparent 65%, rgba(168,255,168,0.65) 65%, rgba(168,255,168,0.65) 70%, transparent 70%),
+      linear-gradient(transparent 84%, rgba(200,255,200,0.75) 84%, rgba(200,255,200,0.75) 90%, transparent 90%);
+    transform: translateX(10px);
   }
-  82.5% {
-    transform: translate(10px, 0);
-    filter: brightness(0.7) hue-rotate(20deg);
-    clip-path: inset(55% 0 38% 0);
+  77% {
+    opacity: 1;
+    background:
+      linear-gradient(transparent 8%, rgba(168,255,168,0.7) 8%, rgba(168,255,168,0.7) 13%, transparent 13%),
+      linear-gradient(transparent 32%, rgba(200,255,200,0.95) 32%, rgba(200,255,200,0.95) 38%, transparent 38%),
+      linear-gradient(transparent 55%, rgba(168,255,168,0.45) 55%, rgba(168,255,168,0.45) 60%, transparent 60%),
+      linear-gradient(transparent 76%, rgba(200,255,200,0.8) 76%, rgba(200,255,200,0.8) 82%, transparent 82%),
+      linear-gradient(transparent 91%, rgba(168,255,168,0.55) 91%, rgba(168,255,168,0.55) 96%, transparent 96%);
+    transform: translateX(-6px);
   }
-  82.7% {
-    transform: translate(-5px, 1px);
-    filter: brightness(1.3);
-    clip-path: inset(30% 0 65% 0);
+  78% {
+    opacity: 0.65;
+    background:
+      linear-gradient(transparent 44%, rgba(168,255,168,0.4) 44%, rgba(168,255,168,0.4) 49%, transparent 49%),
+      linear-gradient(transparent 73%, rgba(200,255,200,0.5) 73%, rgba(200,255,200,0.5) 77%, transparent 77%);
+    transform: translateX(6px);
   }
-  83% {
-    transform: translate(6px, 0);
-    filter: brightness(0.9);
-    clip-path: none;
+  79% {
+    opacity: 1;
+    background:
+      linear-gradient(rgba(168,255,168,0.5) 0%, rgba(168,255,168,0.5) 7%, transparent 7%),
+      linear-gradient(transparent 36%, rgba(200,255,200,0.8) 36%, rgba(200,255,200,0.8) 43%, transparent 43%),
+      linear-gradient(transparent 67%, rgba(168,255,168,0.6) 67%, rgba(168,255,168,0.6) 73%, transparent 73%),
+      linear-gradient(transparent 87%, rgba(200,255,200,0.45) 87%, rgba(200,255,200,0.45) 93%, transparent 93%);
+    transform: translateX(-7px);
   }
-  83.2% {
-    transform: translate(-2px, 0);
-    filter: none;
+  80% {
+    opacity: 0.45;
+    background:
+      linear-gradient(transparent 28%, rgba(168,255,168,0.35) 28%, rgba(168,255,168,0.35) 32%, transparent 32%),
+      linear-gradient(transparent 62%, rgba(200,255,200,0.4) 62%, rgba(200,255,200,0.4) 66%, transparent 66%);
+    transform: translateX(4px);
   }
-  83.5% {
-    transform: translate(0, 0);
-    filter: none;
-    clip-path: none;
+  81% {
+    opacity: 1;
+    background:
+      linear-gradient(transparent 5%, rgba(200,255,200,0.75) 5%, rgba(200,255,200,0.75) 10%, transparent 10%),
+      linear-gradient(transparent 48%, rgba(168,255,168,0.55) 48%, rgba(168,255,168,0.55) 54%, transparent 54%),
+      linear-gradient(transparent 80%, rgba(200,255,200,0.65) 80%, rgba(200,255,200,0.65) 86%, transparent 86%);
+    transform: translateX(-5px);
   }
+  82% {
+    opacity: 0.3;
+    background:
+      linear-gradient(transparent 38%, rgba(168,255,168,0.3) 38%, rgba(168,255,168,0.3) 42%, transparent 42%);
+    transform: translateX(3px);
+  }
+  83% { opacity: 0; transform: none; }
+
+  /* Second burst */
+  85% {
+    opacity: 0.7;
+    background:
+      linear-gradient(transparent 14%, rgba(200,255,200,0.6) 14%, rgba(200,255,200,0.6) 19%, transparent 19%),
+      linear-gradient(transparent 69%, rgba(168,255,168,0.45) 69%, rgba(168,255,168,0.45) 74%, transparent 74%);
+    transform: translateX(6px);
+  }
+  85.5% {
+    opacity: 0.3;
+    background:
+      linear-gradient(transparent 40%, rgba(200,255,200,0.3) 40%, rgba(200,255,200,0.3) 44%, transparent 44%);
+    transform: translateX(-3px);
+  }
+  86% { opacity: 0; transform: none; }
 }
 
-.glitch-tv {
-  animation: tvglitch 11s steps(1) infinite;
+/* Content jitter in sync */
+@keyframes glitch-content-shift {
+  0%, 74%, 87%, 100% { transform: none; filter: none; }
+  75%   { transform: translateX(-8px);  filter: brightness(1.35) hue-rotate(8deg); }
+  76%   { transform: translateX(10px);  filter: brightness(0.85); }
+  77%   { transform: translateX(-5px);  filter: brightness(1.6); }
+  78%   { transform: translateX(7px);   filter: brightness(1.2) hue-rotate(-6deg); }
+  79%   { transform: translateX(-4px);  filter: brightness(1.45); }
+  80%   { transform: translateX(5px);   filter: brightness(1.1); }
+  81%   { transform: translateX(-2px);  filter: brightness(1.3); }
+  82%   { transform: translateX(3px);   filter: brightness(1.15); }
+  82.5% { transform: none;             filter: none; }
+  85%   { transform: translateX(5px);   filter: brightness(1.25); }
+  85.5% { transform: translateX(-2px);  filter: none; }
+  86%   { transform: none;              filter: none; }
+}
+
+.crt-glitch-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9994;
+  animation: glitch-pixel-overlay 13s steps(1) infinite;
+}
+
+.glitch-home {
+  animation: glitch-content-shift 13s steps(1) infinite;
 }
 
 /* Scan line scroll */
