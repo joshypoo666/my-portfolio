@@ -1,18 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { ReactElement } from "react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
+type Project = { title: string; category: string; year: string; embedUrl?: string; thumbnailUrl?: string };
+
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
-const workProjects: Record<string, { title: string; category: string; year: string }[]> = {
+const workProjects: Record<string, Project[]> = {
   UX: [
     { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2024" },
     { title: "AI Mobile Design System", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
-    { title: "Onboarding Experience", category: "Product Design", year: "2023" },
+    { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
   ],
   "Graphic Design": [
     { title: "JobNimbus Pillar Posters", category: "Branding", year: "2024" },
@@ -21,7 +23,7 @@ const workProjects: Record<string, { title: string; category: string; year: stri
     { title: "Magazine Layout", category: "Editorial", year: "2023" },
   ],
   Motion: [
-    { title: "Demo Reel", category: "Motion Graphics", year: "2024" },
+    { title: "Demo Reel", category: "Motion Graphics", year: "2020", embedUrl: "https://player.vimeo.com/video/434784051?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/918251788-58e2e44f097232a2dd41b1597df9a758268bd76c568a253d52b1c8c335b47078-d_640?region=us" },
     { title: "Promo Video", category: "Video", year: "2024" },
     { title: "Social Media Reels", category: "Content", year: "2023" },
     { title: "Title Sequence", category: "Film", year: "2023" },
@@ -39,6 +41,28 @@ const workProjects: Record<string, { title: string; category: string; year: stri
     { title: "Pitch That Got Rejected", category: "Proposal", year: "2021" },
   ],
 };
+
+type GalleryPhoto = { id: number; src: string; caption: string };
+
+const galleryPhotos: GalleryPhoto[] = [
+  { id: 1,  src: "/Photography/IMG_1666.jpg",            caption: "" },
+  { id: 2,  src: "/Photography/IMG_1952.jpg",            caption: "" },
+  { id: 3,  src: "/Photography/IMG_2598.jpg",            caption: "" },
+  { id: 4,  src: "/Photography/IMG_3686.jpg",            caption: "" },
+  { id: 5,  src: "/Photography/IMG_4394.jpg",            caption: "" },
+  { id: 6,  src: "/Photography/IMG_4438_jpg.jpg",        caption: "" },
+  { id: 7,  src: "/Photography/IMG_5902-2.jpg",          caption: "" },
+  { id: 8,  src: "/Photography/IMG_6764.jpg",            caption: "" },
+  { id: 9,  src: "/Photography/IMG_7023.jpg",            caption: "" },
+  { id: 10, src: "/Photography/IMG_7417-2.jpg",          caption: "" },
+  { id: 11, src: "/Photography/20190729-_MG_2771.jpg",   caption: "" },
+  { id: 12, src: "/Photography/20190730-_MG_3061.jpg",   caption: "" },
+  { id: 13, src: "/Photography/K&K-46.jpg",              caption: "" },
+  { id: 14, src: "/Photography/_MG_0064.jpg",            caption: "" },
+  { id: 15, src: "/Photography/_MG_0454.jpg",            caption: "" },
+  { id: 16, src: "/Photography/_MG_1979.jpg",            caption: "" },
+  { id: 17, src: "/Photography/anna newborn-32.jpg",     caption: "" },
+];
 
 // ─── Views ───────────────────────────────────────────────────────────────────
 
@@ -76,9 +100,176 @@ function HomeView({ onNav }: { onNav: (view: string) => void }) {
   );
 }
 
-function WorkView() {
+function PhotoGallery() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const total = galleryPhotos.length;
+
+  const prev = useCallback(() => {
+    setLightboxIndex((i) => (i === null ? null : (i - 1 + total) % total));
+  }, [total]);
+
+  const next = useCallback(() => {
+    setLightboxIndex((i) => (i === null ? null : (i + 1) % total));
+  }, [total]);
+
+  const close = useCallback(() => setLightboxIndex(null), []);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [lightboxIndex, close, prev, next]);
+
+  const current = lightboxIndex !== null ? galleryPhotos[lightboxIndex] : null;
+
+  return (
+    <div>
+      {/* Masonry grid — 2 columns mobile, 3 desktop */}
+      <div className="columns-2 md:columns-3 gap-3 space-y-3">
+        {galleryPhotos.map((photo, i) => (
+          <div
+            key={photo.id}
+            className="break-inside-avoid w-full overflow-hidden rounded-xl cursor-zoom-in relative group"
+            onClick={() => setLightboxIndex(i)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo.src}
+              alt={photo.caption || `Photo ${i + 1}`}
+              className="w-full h-auto block"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+          </div>
+        ))}
+      </div>
+
+      {/* Lightbox */}
+      {current !== null && (
+        <div
+          className="fixed inset-0 z-[9990] bg-black/95 flex items-center justify-center"
+          onClick={close}
+        >
+          {/* Close */}
+          <button
+            onClick={close}
+            className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-2"
+            aria-label="Close"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Prev */}
+          <button
+            onClick={(e) => { e.stopPropagation(); prev(); }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-3"
+            aria-label="Previous"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          {/* Image */}
+          <div
+            className="flex flex-col items-center gap-3 max-w-[88vw] max-h-[88vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={current.src}
+              alt={current.caption || `Photo ${lightboxIndex! + 1}`}
+              className="max-w-full max-h-[82vh] object-contain rounded-lg"
+            />
+            {current.caption && (
+              <span className="text-xs text-white/40">{current.caption}</span>
+            )}
+            <span className="text-xs text-white/25">{lightboxIndex! + 1} / {total}</span>
+          </div>
+
+          {/* Next */}
+          <button
+            onClick={(e) => { e.stopPropagation(); next(); }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-3"
+            aria-label="Next"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VideoModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[9990] bg-black/95 flex flex-col items-center justify-center px-4"
+      onClick={onClose}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-2"
+        aria-label="Close"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div
+        className="w-full max-w-4xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {project.embedUrl ? (
+          <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+            <iframe
+              src={project.embedUrl}
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+              title={project.title}
+            />
+          </div>
+        ) : (
+          <div className="aspect-video bg-[#161c16] border border-[#1e2e1e] rounded-xl flex items-center justify-center">
+            <p className="text-sm text-[#4a6a4a]">Video coming soon</p>
+          </div>
+        )}
+        <div className="mt-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-[#c8e6c8]">{project.title}</p>
+            <p className="text-sm text-[#6b8f6b]">{project.category}</p>
+          </div>
+          <span className="text-sm text-[#4a6a4a]">{project.year}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkView({ onProjectSelect }: { onProjectSelect: (p: Project) => void }) {
   const [activeTab, setActiveTab] = useState<string>("UX");
-  const projects = workProjects[activeTab];
+  const [selectedVideo, setSelectedVideo] = useState<Project | null>(null);
+  const isPhoto = activeTab === "Photography";
+  const isMotion = activeTab === "Motion";
+  const projects = (isPhoto || isMotion) ? workProjects[activeTab] ?? [] : workProjects[activeTab] ?? [];
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-16">
@@ -104,21 +295,259 @@ function WorkView() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((project) => (
-          <div key={project.title} className="group cursor-pointer">
-            <div className="aspect-[16/10] bg-[#161c16] rounded-xl mb-3 overflow-hidden border border-[#1e2e1e] group-hover:border-[#3a5a3a] transition-colors flex items-center justify-center">
-              <span className="text-sm text-[#3a5a3a]">Coming Soon</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium">{project.title}</h3>
-                <p className="text-sm text-[#6b8f6b]">{project.category}</p>
+      {isPhoto ? (
+        <PhotoGallery />
+      ) : isMotion ? (
+        <>
+          {selectedVideo && (
+            <VideoModal project={selectedVideo} onClose={() => setSelectedVideo(null)} />
+          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {projects.map((project) => (
+              <div
+                key={project.title}
+                className="group cursor-pointer"
+                onClick={() => setSelectedVideo(project)}
+              >
+                <div className="aspect-video bg-[#161c16] rounded-xl mb-3 overflow-hidden border border-[#1e2e1e] group-hover:border-[#3a5a3a] transition-colors relative flex items-center justify-center">
+                  {project.thumbnailUrl && (
+                    <img
+                      src={project.thumbnailUrl}
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity"
+                    />
+                  )}
+                  {/* Play button */}
+                  <div className="relative flex flex-col items-center gap-2">
+                    <div className="w-12 h-12 rounded-full border border-[#3a5a3a] group-hover:border-[#6b8f6b] bg-black/30 flex items-center justify-center transition-colors">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-[#6b8f6b] group-hover:text-[#a8d8a8] transition-colors ml-0.5">
+                        <polygon points="5,3 19,12 5,21" />
+                      </svg>
+                    </div>
+                    {!project.embedUrl && <span className="text-xs text-[#2a402a]">Coming soon</span>}
+                  </div>
+                  <div className="absolute inset-0 bg-[#c8e6c8]/0 group-hover:bg-[#c8e6c8]/[0.03] transition-colors" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium group-hover:text-[#a8d8a8] transition-colors">{project.title}</h3>
+                    <p className="text-sm text-[#6b8f6b]">{project.category}</p>
+                  </div>
+                  <span className="text-sm text-[#4a6a4a]">{project.year}</span>
+                </div>
               </div>
-              <span className="text-sm text-[#4a6a4a]">{project.year}</span>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project) => (
+            <div
+              key={project.title}
+              className="group cursor-pointer"
+              onClick={() => onProjectSelect(project)}
+            >
+              <div className="aspect-[16/10] bg-[#161c16] rounded-xl mb-3 overflow-hidden border border-[#1e2e1e] group-hover:border-[#3a5a3a] transition-colors relative flex items-center justify-center">
+                <span className="text-sm text-[#3a5a3a]">[ image ]</span>
+                <div className="absolute inset-0 bg-[#c8e6c8]/0 group-hover:bg-[#c8e6c8]/[0.03] transition-colors" />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium group-hover:text-[#a8d8a8] transition-colors">{project.title}</h3>
+                  <p className="text-sm text-[#6b8f6b]">{project.category}</p>
+                </div>
+                <span className="text-sm text-[#4a6a4a]">{project.year}</span>
+              </div>
             </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Project / Case Study ─────────────────────────────────────────────────────
+
+function ImagePlaceholder({ label, className = "" }: { label?: string; className?: string }) {
+  return (
+    <div className={`bg-[#161c16] border border-[#1e2e1e] rounded-xl flex flex-col items-center justify-center gap-2 ${className}`}>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2a402a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <path d="m21 15-5-5L5 21" />
+      </svg>
+      {label && <span className="text-xs text-[#3a5a3a]">{label}</span>}
+    </div>
+  );
+}
+
+function ProjectView({ project, onBack }: { project: Project; onBack: () => void }) {
+  return (
+    <div className="max-w-5xl mx-auto px-6 py-10 pb-24">
+
+      {/* Back */}
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 text-sm text-[#6b8f6b] hover:text-[#a8d8a8] transition-colors mb-10"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        Back to Work
+      </button>
+
+      {/* Hero */}
+      <div className="mb-12">
+        <p className="text-xs tracking-[0.25em] uppercase text-[#6b8f6b] mb-3">
+          {project.category} — {project.year}
+        </p>
+        <h1 className="text-4xl md:text-5xl font-semibold mb-4">{project.title}</h1>
+        <p className="text-[#6b8f6b] max-w-xl text-base leading-relaxed">
+          A brief tagline describing the essence of this project and the problem it solved.
+          One or two sentences setting the scene.
+        </p>
+      </div>
+
+      {/* Hero image */}
+      <ImagePlaceholder label="Hero Image" className="w-full aspect-[21/9] mb-16" />
+
+      {/* Meta strip */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1e2e1e] rounded-xl overflow-hidden mb-16">
+        {[
+          { label: "Role", value: "Lead Designer" },
+          { label: "Year", value: project.year },
+          { label: "Tools", value: "Figma, Protopie" },
+          { label: "Client", value: "[ Client Name ]" },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-[#0d130d] px-6 py-5">
+            <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1">{label}</p>
+            <p className="text-sm text-[#c8e6c8]">{value}</p>
           </div>
         ))}
+      </div>
+
+      {/* Overview */}
+      <div className="grid md:grid-cols-3 gap-10 mb-20">
+        <div className="md:col-span-2">
+          <h2 className="text-xl font-semibold mb-4">Overview</h2>
+          <div className="space-y-4 text-[#a8d8a8] leading-relaxed text-sm">
+            <p>
+              Placeholder overview paragraph. Describe the project background, the client or context,
+              and what the work ultimately aimed to accomplish. Keep it high-level here — the
+              challenge and solution sections go deeper.
+            </p>
+            <p>
+              A second paragraph expanding on scope, team, or any constraints that shaped the
+              direction of the work from the outset.
+            </p>
+          </div>
+        </div>
+        <div className="space-y-5">
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1.5">Deliverables</p>
+            <ul className="text-sm text-[#6b8f6b] space-y-1">
+              <li>— Deliverable one</li>
+              <li>— Deliverable two</li>
+              <li>— Deliverable three</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1.5">My Role</p>
+            <p className="text-sm text-[#6b8f6b]">Research, UX, Visual Design</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Challenge */}
+      <section className="mb-20">
+        <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">01 — Challenge</p>
+        <h2 className="text-2xl font-semibold mb-5">What problem were we solving?</h2>
+        <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
+          Describe the core problem or tension that kicked off this project. What was broken,
+          missing, or frustrating? Include any relevant user research findings, business constraints,
+          or existing pain points that framed the challenge.
+        </p>
+        <ImagePlaceholder label="Research / Discovery" className="w-full aspect-[16/7]" />
+      </section>
+
+      {/* Process */}
+      <section className="mb-20">
+        <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">02 — Process</p>
+        <h2 className="text-2xl font-semibold mb-5">How we got there</h2>
+        <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
+          Walk through the design process — explorations, sketches, wireframes, iterations, and
+          pivots. This is where you show your thinking, not just your outcomes.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <ImagePlaceholder label="Sketches" className="aspect-[4/3]" />
+          <ImagePlaceholder label="Wireframes" className="aspect-[4/3]" />
+          <ImagePlaceholder label="Iteration" className="aspect-[4/3]" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ImagePlaceholder label="User Testing" className="aspect-[16/9]" />
+          <ImagePlaceholder label="Feedback / Revision" className="aspect-[16/9]" />
+        </div>
+      </section>
+
+      {/* Solution */}
+      <section className="mb-20">
+        <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">03 — Solution</p>
+        <h2 className="text-2xl font-semibold mb-5">The final design</h2>
+        <ImagePlaceholder label="Final Design — Full Width" className="w-full aspect-[16/8] mb-10" />
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          <div className="space-y-4 text-[#a8d8a8] leading-relaxed text-sm">
+            <p>
+              Describe the solution in detail. What decisions were made and why? How does the
+              final design address the problem defined in the challenge section?
+            </p>
+            <p>
+              Highlight key interactions, design decisions, or principles that make this solution
+              stand out or work particularly well for the user.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <ImagePlaceholder label="Detail View" className="aspect-[4/3]" />
+          </div>
+        </div>
+      </section>
+
+      {/* Outcomes */}
+      <section className="mb-20">
+        <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">04 — Outcomes</p>
+        <h2 className="text-2xl font-semibold mb-8">Results & impact</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {[
+            { stat: "00%", label: "Metric one placeholder" },
+            { stat: "00%", label: "Metric two placeholder" },
+            { stat: "00x", label: "Metric three placeholder" },
+          ].map(({ stat, label }) => (
+            <div key={label} className="border border-[#1e2e1e] rounded-xl px-6 py-8 text-center">
+              <p className="text-4xl font-semibold text-[#c8e6c8] mb-2">{stat}</p>
+              <p className="text-xs text-[#6b8f6b]">{label}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl">
+          Summarize the impact: what changed after this shipped? What did you learn? What would you
+          do differently? A brief honest reflection makes the case study more credible and human.
+        </p>
+      </section>
+
+      {/* Divider */}
+      <div className="border-t border-[#1e2e1e] mb-10" />
+
+      {/* Footer CTA */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1">Next up</p>
+          <p className="text-sm text-[#6b8f6b]">Browse more work</p>
+        </div>
+        <button
+          onClick={onBack}
+          className="px-5 py-2.5 border border-[#2a402a] text-[#a8d8a8] text-sm rounded-lg hover:bg-[#161c16] transition-colors"
+        >
+          ← Back to Work
+        </button>
       </div>
     </div>
   );
@@ -181,6 +610,24 @@ function ContactView() {
           <div>
             <div className="font-medium">Phone</div>
             <div className="text-sm text-[#6b8f6b]">801-889-7220</div>
+          </div>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/joshua-taylor-39730a138/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 p-5 rounded-xl border border-[#1e2e1e] hover:bg-[#161c16] hover:border-[#3a5a3a] transition-colors"
+        >
+          <span className="text-[#6b8f6b]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </span>
+          <div>
+            <div className="font-medium">LinkedIn</div>
+            <div className="text-sm text-[#6b8f6b]">joshua-taylor-39730a138</div>
           </div>
         </a>
       </div>
@@ -249,9 +696,8 @@ function ClassifiedView() {
   );
 }
 
-const views: Record<string, (props: { onNav: (view: string) => void }) => ReactElement> = {
+const staticViews: Record<string, (props: { onNav: (view: string) => void }) => ReactElement> = {
   home: HomeView,
-  work: ({ onNav }) => <WorkView />,
   about: ({ onNav }) => <AboutView />,
   contact: ({ onNav }) => <ContactView />,
   classified: ({ onNav }) => <ClassifiedView />,
@@ -271,12 +717,12 @@ const navLinks = [
 export default function Home() {
   const [activeView, setActiveView] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const ActiveView = views[activeView];
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const handleNav = (id: string) => {
     setActiveView(id);
     setMenuOpen(false);
+    setSelectedProject(null);
   };
 
   return (
@@ -375,7 +821,18 @@ export default function Home() {
 
       {/* Page Content */}
       <main className="flex-1">
-        <ActiveView onNav={handleNav} />
+        {activeView === "work" ? (
+          selectedProject ? (
+            <ProjectView
+              project={selectedProject}
+              onBack={() => setSelectedProject(null)}
+            />
+          ) : (
+            <WorkView onProjectSelect={setSelectedProject} />
+          )
+        ) : (
+          staticViews[activeView]?.({ onNav: handleNav })
+        )}
       </main>
     </div>
   );
