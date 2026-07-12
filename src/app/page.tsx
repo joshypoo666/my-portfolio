@@ -5,13 +5,13 @@ import type { ReactElement } from "react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-type Project = { title: string; category: string; year: string; client?: string; embedUrl?: string; thumbnailUrl?: string };
+type Project = { title: string; category: string; year: string; client?: string; heroImageUrl?: string; embedUrl?: string; thumbnailUrl?: string };
 
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", thumbnailUrl: "/JobNimbus Mobile app/Header.png" },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png" },
     { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
@@ -429,7 +429,12 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
       </div>
 
       {/* Hero image */}
-      <ImagePlaceholder label="Hero Image" className="w-full aspect-[21/9] mb-16" />
+      {project.heroImageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={project.heroImageUrl} alt={`${project.title} hero`} className="w-full aspect-[21/9] object-cover object-top rounded-xl mb-16" />
+      ) : (
+        <ImagePlaceholder label="Hero Image" className="w-full aspect-[21/9] mb-16" />
+      )}
 
       {/* Meta strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1e2e1e] rounded-xl overflow-hidden mb-16">
