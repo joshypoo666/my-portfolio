@@ -11,7 +11,7 @@ const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] a
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2024" },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2024", thumbnailUrl: "/JobNimbus Mobile app/Header.png" },
     { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
@@ -359,7 +359,16 @@ function WorkView({ onProjectSelect }: { onProjectSelect: (p: Project) => void }
               onClick={() => onProjectSelect(project)}
             >
               <div className="aspect-[16/10] bg-[#161c16] rounded-xl mb-3 overflow-hidden border border-[#1e2e1e] group-hover:border-[#3a5a3a] transition-colors relative flex items-center justify-center">
-                <span className="text-sm text-[#3a5a3a]">[ image ]</span>
+                {project.thumbnailUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={project.thumbnailUrl}
+                    alt={project.title}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                ) : (
+                  <span className="text-sm text-[#3a5a3a]">[ image ]</span>
+                )}
                 <div className="absolute inset-0 bg-[#c8e6c8]/0 group-hover:bg-[#c8e6c8]/[0.03] transition-colors" />
               </div>
               <div className="flex items-center justify-between">
