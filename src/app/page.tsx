@@ -26,7 +26,7 @@ const workProjects: Record<string, Project[]> = {
     { title: "Demo Reel", category: "Motion Graphics", year: "2020", embedUrl: "https://player.vimeo.com/video/434784051?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/918251788-58e2e44f097232a2dd41b1597df9a758268bd76c568a253d52b1c8c335b47078-d_640?region=us" },
     { title: "UVU Convocation", category: "Video", year: "2019", embedUrl: "https://player.vimeo.com/video/379922304?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/840119054-8493c24b63a5bfe983607b7cc454423e843cd44630489a131aa109df9e0260f9-d_640?region=us" },
     { title: "UVU Convocation 2020", category: "Video", year: "2020", embedUrl: "https://player.vimeo.com/video/522161043?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/1081386545-bca59249a08706720986ac0d04e77ff11f7251a990b7c0dcaf42e5f5d0512fca-d_640?region=us" },
-    { title: "Title Sequence", category: "Film", year: "2023" },
+    { title: "Golf", category: "Film", year: "2019", embedUrl: "https://player.vimeo.com/video/327076333?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/771253435-651f5afc2356e11fce67f2e699d8b6108c872c1efdc21468be4277790055daea-d_640?region=us" },
   ],
   Photography: [
     { title: "Product Shoot", category: "Commercial", year: "2024" },
