@@ -326,6 +326,7 @@ function WorkView({ onProjectSelect }: { onProjectSelect: (p: Project) => void }
                       className="tv-img absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity"
                     />
                   )}
+                  <div className="tv-snow" />
                   <div className="tv-static" />
                   {/* Play button */}
                   <div className="relative flex flex-col items-center gap-2">
