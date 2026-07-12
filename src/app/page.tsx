@@ -436,7 +436,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
         {[
           { label: "Role", value: "Lead Designer" },
           { label: "Year", value: project.year },
-          { label: "Tools", value: "Figma, Protopie" },
+          { label: "Tools", value: "Figma, Claude Code" },
           { label: "Client", value: "[ Client Name ]" },
         ].map(({ label, value }) => (
           <div key={label} className="bg-[#0d130d] px-6 py-5">
