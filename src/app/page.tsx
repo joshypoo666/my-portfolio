@@ -24,7 +24,7 @@ const workProjects: Record<string, Project[]> = {
   ],
   Motion: [
     { title: "Demo Reel", category: "Motion Graphics", year: "2020", embedUrl: "https://player.vimeo.com/video/434784051?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/918251788-58e2e44f097232a2dd41b1597df9a758268bd76c568a253d52b1c8c335b47078-d_640?region=us" },
-    { title: "Promo Video", category: "Video", year: "2024" },
+    { title: "UVU Convocation", category: "Video", year: "2019", embedUrl: "https://player.vimeo.com/video/379922304?badge=0&autopause=0&player_id=0&app_id=58479", thumbnailUrl: "https://i.vimeocdn.com/video/840119054-8493c24b63a5bfe983607b7cc454423e843cd44630489a131aa109df9e0260f9-d_640?region=us" },
     { title: "Social Media Reels", category: "Content", year: "2023" },
     { title: "Title Sequence", category: "Film", year: "2023" },
   ],
