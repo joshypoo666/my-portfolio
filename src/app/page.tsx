@@ -323,9 +323,10 @@ function WorkView({ onProjectSelect }: { onProjectSelect: (p: Project) => void }
                     <img
                       src={project.thumbnailUrl}
                       alt={project.title}
-                      className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity"
+                      className="tv-img absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity"
                     />
                   )}
+                  <div className="tv-static" />
                   {/* Play button */}
                   <div className="relative flex flex-col items-center gap-2">
                     <div className="w-12 h-12 rounded-full border border-[#3a5a3a] group-hover:border-[#6b8f6b] bg-black/30 flex items-center justify-center transition-colors">
