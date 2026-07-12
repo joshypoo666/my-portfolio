@@ -12,7 +12,7 @@ const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] a
 const workProjects: Record<string, Project[]> = {
   UX: [
     { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2024" },
-    { title: "AI Mobile Design System", category: "Web App", year: "2024" },
+    { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
   ],
