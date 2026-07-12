@@ -5,13 +5,14 @@ import type { ReactElement } from "react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-type Project = { title: string; category: string; year: string; client?: string; heroImageUrl?: string; embedUrl?: string; thumbnailUrl?: string };
+type SubProject = { title: string };
+type Project = { title: string; category: string; year: string; client?: string; heroImageUrl?: string; subProjects?: SubProject[]; embedUrl?: string; thumbnailUrl?: string };
 
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png" },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity" }, { title: "Photo Reports" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }] },
     { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
@@ -402,6 +403,8 @@ function ImagePlaceholder({ label, className = "" }: { label?: string; className
 }
 
 function ProjectView({ project, onBack }: { project: Project; onBack: () => void }) {
+  const [activeSubIdx, setActiveSubIdx] = useState(0);
+  const activeSub = project.subProjects?.[activeSubIdx];
   return (
     <div className="max-w-5xl mx-auto px-6 py-10 pb-24">
 
@@ -486,11 +489,32 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
       {/* Challenge */}
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">01 — Challenge</p>
-        <h2 className="text-2xl font-semibold mb-5">What problem were we solving?</h2>
+        <h2 className="text-2xl font-semibold mb-6">What problem were we solving?</h2>
+
+        {/* Sub-project tabs */}
+        {project.subProjects && (
+          <div className="flex gap-1 mb-8 border-b border-[#1e2e1e] overflow-x-auto scrollbar-none">
+            {project.subProjects.map((sub, i) => (
+              <button
+                key={sub.title}
+                onClick={() => setActiveSubIdx(i)}
+                className={`px-4 py-2.5 text-sm whitespace-nowrap transition-colors border-b-2 -mb-px ${
+                  activeSubIdx === i
+                    ? "border-[#a8d8a8] text-[#c8e6c8]"
+                    : "border-transparent text-[#4a6a4a] hover:text-[#6b8f6b]"
+                }`}
+              >
+                {sub.title}
+              </button>
+            ))}
+          </div>
+        )}
+
         <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
-          Describe the core problem or tension that kicked off this project. What was broken,
-          missing, or frustrating? Include any relevant user research findings, business constraints,
-          or existing pain points that framed the challenge.
+          {activeSub
+            ? `Describe the core problem for ${activeSub.title}. What was broken, missing, or frustrating? Include any relevant user research findings, business constraints, or existing pain points that framed the challenge.`
+            : "Describe the core problem or tension that kicked off this project. What was broken, missing, or frustrating? Include any relevant user research findings, business constraints, or existing pain points that framed the challenge."
+          }
         </p>
         <ImagePlaceholder label="Research / Discovery" className="w-full aspect-[16/7]" />
       </section>
@@ -498,7 +522,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
       {/* Process */}
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">02 — Process</p>
-        <h2 className="text-2xl font-semibold mb-5">How we got there</h2>
+        <h2 className="text-2xl font-semibold mb-5">{activeSub ? `How we approached ${activeSub.title}` : "How we got there"}</h2>
         <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
           Walk through the design process — explorations, sketches, wireframes, iterations, and
           pivots. This is where you show your thinking, not just your outcomes.
@@ -517,7 +541,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
       {/* Solution */}
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">03 — Solution</p>
-        <h2 className="text-2xl font-semibold mb-5">The final design</h2>
+        <h2 className="text-2xl font-semibold mb-5">{activeSub ? `${activeSub.title} — final design` : "The final design"}</h2>
         <ImagePlaceholder label="Final Design — Full Width" className="w-full aspect-[16/8] mb-10" />
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <div className="space-y-4 text-[#a8d8a8] leading-relaxed text-sm">
