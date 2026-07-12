@@ -5,13 +5,13 @@ import type { ReactElement } from "react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-type Project = { title: string; category: string; year: string; embedUrl?: string; thumbnailUrl?: string };
+type Project = { title: string; category: string; year: string; client?: string; embedUrl?: string; thumbnailUrl?: string };
 
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", thumbnailUrl: "/JobNimbus Mobile app/Header.png" },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", thumbnailUrl: "/JobNimbus Mobile app/Header.png" },
     { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
@@ -437,7 +437,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
           { label: "Role", value: "Lead Designer" },
           { label: "Year", value: project.year },
           { label: "Tools", value: "Figma, Claude Code" },
-          { label: "Client", value: "[ Client Name ]" },
+          { label: "Client", value: project.client ?? "[ Client Name ]" },
         ].map(({ label, value }) => (
           <div key={label} className="bg-[#0d130d] px-6 py-5">
             <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1">{label}</p>
