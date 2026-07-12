@@ -102,6 +102,10 @@ function HomeView({ onNav }: { onNav: (view: string) => void }) {
 
 function PhotoGallery() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [loaded, setLoaded] = useState<Set<number>>(new Set());
+  const markLoaded = useCallback((id: number) => {
+    setLoaded((prev) => new Set(prev).add(id));
+  }, []);
   const total = galleryPhotos.length;
 
   const prev = useCallback(() => {
@@ -134,15 +138,20 @@ function PhotoGallery() {
         {galleryPhotos.map((photo, i) => (
           <div
             key={photo.id}
-            className="break-inside-avoid w-full overflow-hidden rounded-xl cursor-zoom-in relative group"
+            className={`break-inside-avoid w-full overflow-hidden rounded-xl cursor-zoom-in relative group ${!loaded.has(photo.id) ? "min-h-[160px] bg-[#161c16]" : ""}`}
             onClick={() => setLightboxIndex(i)}
           >
+            {!loaded.has(photo.id) && (
+              <div className="absolute inset-0 rounded-xl overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1e2e1e]/60 to-transparent animate-[shimmer_1.4s_ease-in-out_infinite] bg-[length:200%_100%]" />
+              </div>
+            )}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={photo.src}
               alt={photo.caption || `Photo ${i + 1}`}
-              className="w-full h-auto block"
-              loading="lazy"
+              className={`w-full h-auto block transition-opacity duration-700 ${loaded.has(photo.id) ? "opacity-100" : "opacity-0"}`}
+              onLoad={() => markLoaded(photo.id)}
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
           </div>
