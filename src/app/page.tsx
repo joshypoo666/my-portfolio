@@ -6,13 +6,14 @@ import type { ReactElement } from "react";
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 type SubProject = { title: string };
-type Project = { title: string; category: string; year: string; client?: string; heroImageUrl?: string; subProjects?: SubProject[]; embedUrl?: string; thumbnailUrl?: string };
+type Outcome = { stat: string; label: string };
+type Project = { title: string; category: string; year: string; client?: string; heroImageUrl?: string; subProjects?: SubProject[]; outcomes?: { stats: Outcome[]; reflection: string }; embedUrl?: string; thumbnailUrl?: string };
 
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity" }, { title: "Photo Reports" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }] },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity" }, { title: "Photo Reports" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
     { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
@@ -565,11 +566,11 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">04 — Outcomes</p>
         <h2 className="text-2xl font-semibold mb-8">Results & impact</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {[
+          {(project.outcomes?.stats ?? [
             { stat: "00%", label: "Metric one placeholder" },
             { stat: "00%", label: "Metric two placeholder" },
             { stat: "00x", label: "Metric three placeholder" },
-          ].map(({ stat, label }) => (
+          ]).map(({ stat, label }) => (
             <div key={label} className="border border-[#1e2e1e] rounded-xl px-6 py-8 text-center">
               <p className="text-4xl font-semibold text-[#c8e6c8] mb-2">{stat}</p>
               <p className="text-xs text-[#6b8f6b]">{label}</p>
@@ -577,8 +578,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
           ))}
         </div>
         <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl">
-          Summarize the impact: what changed after this shipped? What did you learn? What would you
-          do differently? A brief honest reflection makes the case study more credible and human.
+          {project.outcomes?.reflection ?? "Summarize the impact: what changed after this shipped? What did you learn? What would you do differently? A brief honest reflection makes the case study more credible and human."}
         </p>
       </section>
 
