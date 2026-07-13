@@ -7,13 +7,13 @@ import type { ReactElement } from "react";
 
 type SubProject = { title: string };
 type Outcome = { stat: string; label: string };
-type Project = { title: string; category: string; year: string; client?: string; heroImageUrl?: string; subProjects?: SubProject[]; outcomes?: { stats: Outcome[]; reflection: string }; embedUrl?: string; thumbnailUrl?: string };
+type Project = { title: string; category: string; year: string; client?: string; tagline?: string; heroImageUrl?: string; subProjects?: SubProject[]; outcomes?: { stats: Outcome[]; reflection: string }; embedUrl?: string; thumbnailUrl?: string };
 
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity" }, { title: "Photo Reports" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity" }, { title: "Photo Reports" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
     { title: "AI Mobile Design Builder", category: "Web App", year: "2024" },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
@@ -427,8 +427,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
         </p>
         <h1 className="text-4xl md:text-5xl font-semibold mb-4">{project.title}</h1>
         <p className="text-[#6b8f6b] max-w-xl text-base leading-relaxed">
-          A brief tagline describing the essence of this project and the problem it solved.
-          One or two sentences setting the scene.
+          {project.tagline ?? "A brief tagline describing the essence of this project and the problem it solved. One or two sentences setting the scene."}
         </p>
       </div>
 
