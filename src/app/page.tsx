@@ -454,29 +454,28 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
         ))}
       </div>
 
+      {/* Sub-project selector */}
+      {project.subProjects && (
+        <div className="flex gap-3 mb-16 flex-wrap">
+          {project.subProjects.map((sub, i) => (
+            <button
+              key={sub.title}
+              onClick={() => setActiveSubIdx(i)}
+              className={`px-5 py-2 text-base rounded-full whitespace-nowrap transition-all border ${
+                activeSubIdx === i
+                  ? "bg-[#1e3a1e] border-[#a8d8a8] text-[#c8e6c8] font-semibold"
+                  : "bg-transparent border-[#2a4a2a] text-[#6b8f6b] hover:border-[#4a6a4a] hover:text-[#a8d8a8]"
+              }`}
+            >
+              {sub.title}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Challenge */}
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-4">01 — Challenge</p>
-
-        {/* Sub-project tabs */}
-        {project.subProjects && (
-          <div className="flex gap-3 mb-6 flex-wrap">
-            {project.subProjects.map((sub, i) => (
-              <button
-                key={sub.title}
-                onClick={() => setActiveSubIdx(i)}
-                className={`px-5 py-2 text-base rounded-full whitespace-nowrap transition-all border ${
-                  activeSubIdx === i
-                    ? "bg-[#1e3a1e] border-[#a8d8a8] text-[#c8e6c8] font-semibold"
-                    : "bg-transparent border-[#2a4a2a] text-[#6b8f6b] hover:border-[#4a6a4a] hover:text-[#a8d8a8]"
-                }`}
-              >
-                {sub.title}
-              </button>
-            ))}
-          </div>
-        )}
-
         <h2 className="text-2xl font-semibold mb-6">What problem were we solving?</h2>
 
         <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
