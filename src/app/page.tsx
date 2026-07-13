@@ -454,38 +454,6 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
         ))}
       </div>
 
-      {/* Overview */}
-      <div className="grid md:grid-cols-3 gap-10 mb-20">
-        <div className="md:col-span-2">
-          <h2 className="text-xl font-semibold mb-4">Overview</h2>
-          <div className="space-y-4 text-[#a8d8a8] leading-relaxed text-sm">
-            <p>
-              Placeholder overview paragraph. Describe the project background, the client or context,
-              and what the work ultimately aimed to accomplish. Keep it high-level here — the
-              challenge and solution sections go deeper.
-            </p>
-            <p>
-              A second paragraph expanding on scope, team, or any constraints that shaped the
-              direction of the work from the outset.
-            </p>
-          </div>
-        </div>
-        <div className="space-y-5">
-          <div>
-            <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1.5">Deliverables</p>
-            <ul className="text-sm text-[#6b8f6b] space-y-1">
-              <li>— Deliverable one</li>
-              <li>— Deliverable two</li>
-              <li>— Deliverable three</li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-xs tracking-[0.2em] uppercase text-[#4a6a4a] mb-1.5">My Role</p>
-            <p className="text-sm text-[#6b8f6b]">Research, UX, Visual Design</p>
-          </div>
-        </div>
-      </div>
-
       {/* Challenge */}
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">01 — Challenge</p>
