@@ -493,15 +493,15 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
 
         {/* Sub-project tabs */}
         {project.subProjects && (
-          <div className="flex gap-1 mb-8 border-b border-[#1e2e1e] overflow-x-auto scrollbar-none">
+          <div className="flex gap-2 mb-8 flex-wrap">
             {project.subProjects.map((sub, i) => (
               <button
                 key={sub.title}
                 onClick={() => setActiveSubIdx(i)}
-                className={`px-4 py-2.5 text-sm whitespace-nowrap transition-colors border-b-2 -mb-px ${
+                className={`px-4 py-1.5 text-sm rounded-full whitespace-nowrap transition-all border ${
                   activeSubIdx === i
-                    ? "border-[#a8d8a8] text-[#c8e6c8]"
-                    : "border-transparent text-[#4a6a4a] hover:text-[#6b8f6b]"
+                    ? "bg-[#1e3a1e] border-[#a8d8a8] text-[#c8e6c8] font-medium"
+                    : "bg-transparent border-[#2a4a2a] text-[#6b8f6b] hover:border-[#4a6a4a] hover:text-[#a8d8a8]"
                 }`}
               >
                 {sub.title}
