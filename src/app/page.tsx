@@ -10,7 +10,7 @@ type ChallengeBlock =
   | { type: 'paragraph'; text: string }
   | { type: 'quote'; text: string; attribution: string }
   | { type: 'list'; items: string[] };
-type SubProject = { title: string; challenge?: string; challengeBlocks?: ChallengeBlock[]; process?: string; solution?: string };
+type SubProject = { title: string; challenge?: string; challengeBlocks?: ChallengeBlock[]; challengeImageUrl?: string; processImages?: string[]; processDescription?: string; process?: string; solution?: string };
 type Outcome = { stat: string; label: string };
 type Project = { title: string; category: string; year: string; client?: string; tagline?: string; challenge?: string; processHeading?: string; processDescription?: string; processPostText?: { heading: string; body: string }[]; heroImageUrl?: string; challengeImageUrl?: string; processImages?: string[]; subProjects?: SubProject[]; outcomes?: { stats: Outcome[]; reflection?: string; reflectionHeading?: string; reflectionItems?: string[] }; embedUrl?: string; thumbnailUrl?: string; thumbnailPosition?: string };
 
@@ -18,7 +18,7 @@ const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] a
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity", challenge: "When I joined JobNimbus the mobile app covered roughly 40% of what the web product could do — and users felt it. Sales reps were hauling laptops to job sites or waiting until they got back to the office to log notes, update statuses, and fill out forms. The goal was to close that gap to 90% parity within six months, prioritizing the workflows that field crews and sales reps touched every day. The challenge wasn't just feature count — it was figuring out which web capabilities actually mattered in a mobile context and designing them to feel native, not ported." }, { title: "Photo Reports", challengeBlocks: [
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity", challenge: "When I joined JobNimbus the mobile app covered roughly 40% of what the web product could do — and users felt it. Sales reps were hauling laptops to job sites or waiting until they got back to the office to log notes, update statuses, and fill out forms. The goal was to close that gap to 90% parity within six months, prioritizing the workflows that field crews and sales reps touched every day. The challenge wasn't just feature count — it was figuring out which web capabilities actually mattered in a mobile context and designing them to feel native, not ported." }, { title: "Photo Reports", challengeImageUrl: "/JobNimbus Mobile app/Roofer photos.png", processDescription: "Nobody believed it was that bad until they lived it.\n\nI took my PM and one of our engineers up to the fake rooftop we keep in our main office — a staging area built to test field workflows — and handed them a phone. The task was simple: build a photo report using only JobNimbus. No workarounds, no desktop, just the app as a contractor would use it.\n\nThe frustrations surfaced fast. They couldn't find where to start. When they did, they hit a wall of small indignities: images that took forever to upload, a layout they couldn't control, output that looked nothing like something you'd hand a homeowner. By the time they made it off the roof, the case was made — not by a spreadsheet or a research deck, but by fifteen minutes of trying to do the job themselves.", processImages: ["/JobNimbus Mobile app/photo report 1.jpeg", "/JobNimbus Mobile app/photo report 2.jpg", "/JobNimbus Mobile app/Photo report 3.jpg", "/JobNimbus Mobile app/Photo report 4.jpg", "/JobNimbus Mobile app/photo report 5.jpg"], challengeBlocks: [
   { type: "heading", text: "Contractors were stitching together three apps to do one job" },
   { type: "paragraph", text: "When I mapped how our customers actually assembled a photo report, the workflow looked like this:" },
   { type: "list", items: ["Capture photos in CompanyCam, organize and caption them, export, drop the file in Google Drive because it's too big to email, send the recipient a Drive link."] },
@@ -28,14 +28,14 @@ const workProjects: Record<string, Project[]> = {
   { type: "quote", text: "The report looks like absolute trash. I'd rather write it with pen and paper and mail it with a pigeon.", attribution: "Doron Waldman, 911 Restoration" },
   { type: "quote", text: "When we try to do a photo report, it's very plain and generic… it doesn't look presentable to a homeowner.", attribution: "Carmen, Results Roofing" },
   { type: "paragraph", text: "The failures clustered into a few themes: reports looked unprofessional, photos rendered microscopically small (the PDF crammed 20 images onto one page), photos couldn't be organized into folders or areas, and most damning, there was no discoverable way to make a photo report at all. You had to create an estimate first and back into it, which nobody could figure out on their own." }
-] }, { title: "Scout AI" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
+] }, { title: "Scout AI" }, { title: "Sub Contractors", challengeImageUrl: "/JobNimbus Mobile app/sub 1.jpg", processImages: ["/JobNimbus Mobile app/sub 2.jpeg", "/JobNimbus Mobile app/sub 3.jpeg", "/JobNimbus Mobile app/sub 4.JPG", "/JobNimbus Mobile app/sub 5.JPG", "/JobNimbus Mobile app/sub 6.JPG"] }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
     { title: "AI Mobile Design Builder", category: "Mobile", year: "2026", client: "JobNimbus Design Team", tagline: "Mobile was the last thing anyone thought about when AI came along. Forge changed that.", heroImageUrl: "/Ai Mobile Design builder/project hero.png", challengeImageUrl: "/Ai Mobile Design builder/dual forge.png", processImages: ["/Ai Mobile Design builder/mobile forge menu.png", "/Ai Mobile Design builder/button playground.png", "/Ai Mobile Design builder/prototypes view.png", "/Ai Mobile Design builder/Designers.png", "/Ai Mobile Design builder/Prototypes.png"], thumbnailUrl: "/Ai Mobile Design builder/forge hero.png", thumbnailPosition: "center", challenge: "Every AI design tool on the market was built with the web in mind. Ask one to produce a native mobile component and it falls apart: wrong patterns, wrong spacing, no concept of Swift or Android conventions. Designers working in mobile had no equivalent of what web teams were getting. The problem was that our design system, Forge, had everything we needed (tokens, components, brand foundations) but it only spoke to web. The opportunity was to extend Forge with native mobile components and connect it to an AI layer that could generate live mobile prototypes, not web mockups dressed up to look like apps.", processHeading: "The Shift", processDescription: "For a long time, our design system lived in Figma. Figma is a great place to design, but the components there are a representation of the product, not the product itself. Over time that creates a familiar set of problems: the design library drifts from what's actually shipped, every handoff introduces a little translation loss, and prototypes are stitched together from static screens that only look like the real thing.\n\nWe decided to close that gap by moving the design system into code. We call it Forge. The idea is simple but consequential: the components designers reach for are the same components engineers ship. One source of truth, expressed in the languages the product is actually built in.", processPostText: [{ heading: "Building Forge in our own space", body: "Rather than treat this as an engineering-only project, we set it up so designers could contribute directly. We created a Forge repository inside JobNimbus's own GitHub space and, as designers, began adding components to it ourselves — real, buildable components living alongside the code the product runs on.\n\nWeb went first. The web platform led the rollout and proved out the model: designers writing and contributing components, a shared library taking shape, a workflow that worked. Mobile followed about three months behind, which gave us the benefit of learning from web's head start before we adapted the approach to native." }], outcomes: { stats: [], reflectionHeading: "Impact", reflectionItems: ["One source of truth. The components designers use are the components engineers build, so the drift between \"designed\" and \"shipped\" largely disappears.", "Real-fidelity prototypes. Because prototypes are built on production components, they behave like the product instead of only resembling it.", "Faster exploration. Prompt-driven prototyping on top of Forge meant I could stand up a realistic flow in a fraction of the time a hand-built prototype would take.", "Designers contributing in code. By putting the library in a repo we could all add to, design became a direct contributor to the system rather than a spec on the other side of a handoff."] } },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
   ],
   "Graphic Design": [
     { title: "JobNimbus Pillar Posters", category: "Branding", year: "2024" },
-    { title: "Sunny Dayz", category: "Branding", year: "2024" },
+    { title: "Sunny Dayz", category: "Branding", year: "2024", thumbnailUrl: "/Sunny Dayz/thumbnail.png" },
     { title: "Packaging Design", category: "Product", year: "2023" },
     { title: "Magazine Layout", category: "Editorial", year: "2023" },
   ],
@@ -367,6 +367,11 @@ function WorkView({ onProjectSelect }: { onProjectSelect: (p: Project) => void }
             ))}
           </div>
         </>
+      ) : activeTab === "Failures" ? (
+        <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
+          <span className="text-5xl">🚧</span>
+          <p className="text-[#4a6a4a] text-sm tracking-widest uppercase">Coming soon</p>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project) => (
@@ -422,7 +427,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
   const [activeSubIdx, setActiveSubIdx] = useState(0);
   const activeSub = project.subProjects?.[activeSubIdx];
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
-  const images = project.processImages ?? [];
+  const images = activeSub?.processImages ?? project.processImages ?? [];
   const closeLightbox = () => setLightboxIdx(null);
   const prevImage = () => setLightboxIdx(i => (i != null && i > 0 ? i - 1 : i));
   const nextImage = () => setLightboxIdx(i => (i != null && i < images.length - 1 ? i + 1 : i));
@@ -532,9 +537,9 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
             }
           </p>
         )}
-        {project.challengeImageUrl ? (
+        {(activeSub?.challengeImageUrl ?? project.challengeImageUrl) ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={project.challengeImageUrl} alt="Research / Discovery" className="w-full aspect-[16/7] object-cover object-center rounded-xl" />
+          <img src={activeSub?.challengeImageUrl ?? project.challengeImageUrl} alt="Research / Discovery" className="w-full aspect-[16/7] object-cover object-center rounded-xl" />
         ) : (
           <ImagePlaceholder label="Research / Discovery" className="w-full aspect-[16/7]" />
         )}
@@ -544,12 +549,12 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">02 — Process</p>
         <h2 className="text-2xl font-semibold mb-5">{activeSub ? `How we approached ${activeSub.title}` : "How we got there"}</h2>
-        {project.processDescription ? (
+        {(activeSub?.processDescription ?? project.processDescription) ? (
           <div className="max-w-2xl mb-8 space-y-4">
-            {project.processHeading && (
+            {project.processHeading && !activeSub && (
               <h3 className="text-base font-semibold text-[#c8e6c8]">{project.processHeading}</h3>
             )}
-            {project.processDescription.split('\n\n').map((para, i) => (
+            {(activeSub?.processDescription ?? project.processDescription)!.split('\n\n').map((para, i) => (
               <p key={i} className="text-[#a8d8a8] leading-relaxed text-sm">{para}</p>
             ))}
           </div>
@@ -811,7 +816,6 @@ function ClassifiedView() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
       <h2 className="text-3xl font-semibold mb-2">Classified</h2>
-      <p className="text-[#6b8f6b] mb-8">Resources, tools, and things I find interesting.</p>
       <div className="text-[#4a6a4a] text-center py-12 border border-dashed border-[#1e2e1e] rounded-xl">
         Coming soon
       </div>
