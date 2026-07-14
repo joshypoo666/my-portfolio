@@ -5,16 +5,31 @@ import type { ReactElement } from "react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-type SubProject = { title: string; challenge?: string; process?: string; solution?: string };
+type ChallengeBlock =
+  | { type: 'heading'; text: string }
+  | { type: 'paragraph'; text: string }
+  | { type: 'quote'; text: string; attribution: string }
+  | { type: 'list'; items: string[] };
+type SubProject = { title: string; challenge?: string; challengeBlocks?: ChallengeBlock[]; process?: string; solution?: string };
 type Outcome = { stat: string; label: string };
-type Project = { title: string; category: string; year: string; client?: string; tagline?: string; challenge?: string; heroImageUrl?: string; challengeImageUrl?: string; processImages?: string[]; subProjects?: SubProject[]; outcomes?: { stats: Outcome[]; reflection: string }; embedUrl?: string; thumbnailUrl?: string; thumbnailPosition?: string };
+type Project = { title: string; category: string; year: string; client?: string; tagline?: string; challenge?: string; processHeading?: string; processDescription?: string; processPostText?: { heading: string; body: string }[]; heroImageUrl?: string; challengeImageUrl?: string; processImages?: string[]; subProjects?: SubProject[]; outcomes?: { stats: Outcome[]; reflection?: string; reflectionHeading?: string; reflectionItems?: string[] }; embedUrl?: string; thumbnailUrl?: string; thumbnailPosition?: string };
 
 const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] as const;
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity", challenge: "When I joined JobNimbus the mobile app covered roughly 40% of what the web product could do — and users felt it. Sales reps were hauling laptops to job sites or waiting until they got back to the office to log notes, update statuses, and fill out forms. The goal was to close that gap to 90% parity within six months, prioritizing the workflows that field crews and sales reps touched every day. The challenge wasn't just feature count — it was figuring out which web capabilities actually mattered in a mobile context and designing them to feel native, not ported." }, { title: "Photo Reports" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
-    { title: "AI Mobile Design Builder", category: "Mobile", year: "2026", client: "JobNimbus Design Team", tagline: "Mobile was the last thing anyone thought about when AI came along. Forge changed that.", heroImageUrl: "/Ai Mobile Design builder/project hero.png", challengeImageUrl: "/Ai Mobile Design builder/dual forge.png", processImages: ["/Ai Mobile Design builder/mobile forge menu.png", "/Ai Mobile Design builder/button playground.png", "/Ai Mobile Design builder/prototypes view.png", "/Ai Mobile Design builder/Designers.png", "/Ai Mobile Design builder/Prototypes.png"], thumbnailUrl: "/Ai Mobile Design builder/forge hero.png", thumbnailPosition: "center", challenge: "Every AI design tool on the market was built with the web in mind. Ask one to produce a native mobile component and it falls apart: wrong patterns, wrong spacing, no concept of Swift or Android conventions. Designers working in mobile had no equivalent of what web teams were getting. The problem was that our design system, Forge, had everything we needed (tokens, components, brand foundations) but it only spoke to web. The opportunity was to extend Forge with native mobile components and connect it to an AI layer that could generate live mobile prototypes, not web mockups dressed up to look like apps." },
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/JobNimbus Mobile app/Hero.png", thumbnailUrl: "/JobNimbus Mobile app/Header.png", subProjects: [{ title: "Web Parity", challenge: "When I joined JobNimbus the mobile app covered roughly 40% of what the web product could do — and users felt it. Sales reps were hauling laptops to job sites or waiting until they got back to the office to log notes, update statuses, and fill out forms. The goal was to close that gap to 90% parity within six months, prioritizing the workflows that field crews and sales reps touched every day. The challenge wasn't just feature count — it was figuring out which web capabilities actually mattered in a mobile context and designing them to feel native, not ported." }, { title: "Photo Reports", challengeBlocks: [
+  { type: "heading", text: "Contractors were stitching together three apps to do one job" },
+  { type: "paragraph", text: "When I mapped how our customers actually assembled a photo report, the workflow looked like this:" },
+  { type: "list", items: ["Capture photos in CompanyCam, organize and caption them, export, drop the file in Google Drive because it's too big to email, send the recipient a Drive link."] },
+  { type: "quote", text: "Sometimes those reports can be more than 20 megabytes big… I have to download it into Google Drive. And then provide them a link to the Google Drive.", attribution: "Erwin Serrano, Columbia Contracting" },
+  { type: "paragraph", text: "That's roughly 30 minutes per report across a multi-app workflow, several times a week in busy season. And it meant customers were anchored to a competitor for a workflow that sat right next to the data we already stored." },
+  { type: "heading", text: "What JobNimbus offered instead didn't clear the bar" },
+  { type: "quote", text: "The report looks like absolute trash. I'd rather write it with pen and paper and mail it with a pigeon.", attribution: "Doron Waldman, 911 Restoration" },
+  { type: "quote", text: "When we try to do a photo report, it's very plain and generic… it doesn't look presentable to a homeowner.", attribution: "Carmen, Results Roofing" },
+  { type: "paragraph", text: "The failures clustered into a few themes: reports looked unprofessional, photos rendered microscopically small (the PDF crammed 20 images onto one page), photos couldn't be organized into folders or areas, and most damning, there was no discoverable way to make a photo report at all. You had to create an estimate first and back into it, which nobody could figure out on their own." }
+] }, { title: "Scout AI" }, { title: "Sub Contractors" }, { title: "Photo Annotations" }], outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } },
+    { title: "AI Mobile Design Builder", category: "Mobile", year: "2026", client: "JobNimbus Design Team", tagline: "Mobile was the last thing anyone thought about when AI came along. Forge changed that.", heroImageUrl: "/Ai Mobile Design builder/project hero.png", challengeImageUrl: "/Ai Mobile Design builder/dual forge.png", processImages: ["/Ai Mobile Design builder/mobile forge menu.png", "/Ai Mobile Design builder/button playground.png", "/Ai Mobile Design builder/prototypes view.png", "/Ai Mobile Design builder/Designers.png", "/Ai Mobile Design builder/Prototypes.png"], thumbnailUrl: "/Ai Mobile Design builder/forge hero.png", thumbnailPosition: "center", challenge: "Every AI design tool on the market was built with the web in mind. Ask one to produce a native mobile component and it falls apart: wrong patterns, wrong spacing, no concept of Swift or Android conventions. Designers working in mobile had no equivalent of what web teams were getting. The problem was that our design system, Forge, had everything we needed (tokens, components, brand foundations) but it only spoke to web. The opportunity was to extend Forge with native mobile components and connect it to an AI layer that could generate live mobile prototypes, not web mockups dressed up to look like apps.", processHeading: "The Shift", processDescription: "For a long time, our design system lived in Figma. Figma is a great place to design, but the components there are a representation of the product, not the product itself. Over time that creates a familiar set of problems: the design library drifts from what's actually shipped, every handoff introduces a little translation loss, and prototypes are stitched together from static screens that only look like the real thing.\n\nWe decided to close that gap by moving the design system into code. We call it Forge. The idea is simple but consequential: the components designers reach for are the same components engineers ship. One source of truth, expressed in the languages the product is actually built in.", processPostText: [{ heading: "Building Forge in our own space", body: "Rather than treat this as an engineering-only project, we set it up so designers could contribute directly. We created a Forge repository inside JobNimbus's own GitHub space and, as designers, began adding components to it ourselves — real, buildable components living alongside the code the product runs on.\n\nWeb went first. The web platform led the rollout and proved out the model: designers writing and contributing components, a shared library taking shape, a workflow that worked. Mobile followed about three months behind, which gave us the benefit of learning from web's head start before we adapted the approach to native." }], outcomes: { stats: [], reflectionHeading: "Impact", reflectionItems: ["One source of truth. The components designers use are the components engineers build, so the drift between \"designed\" and \"shipped\" largely disappears.", "Real-fidelity prototypes. Because prototypes are built on production components, they behave like the product instead of only resembling it.", "Faster exploration. Prompt-driven prototyping on top of Forge meant I could stand up a realistic flow in a fraction of the time a hand-built prototype would take.", "Designers contributing in code. By putting the library in a repo we could all add to, design became a direct contributor to the system rather than a spec on the other side of a handoff."] } },
     { title: "ThermoWorks Mobile App", category: "User Research", year: "2023" },
     { title: "EventDreamer", category: "Landing page and event management", year: "2023" },
   ],
@@ -406,6 +421,11 @@ function ImagePlaceholder({ label, className = "" }: { label?: string; className
 function ProjectView({ project, onBack }: { project: Project; onBack: () => void }) {
   const [activeSubIdx, setActiveSubIdx] = useState(0);
   const activeSub = project.subProjects?.[activeSubIdx];
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const images = project.processImages ?? [];
+  const closeLightbox = () => setLightboxIdx(null);
+  const prevImage = () => setLightboxIdx(i => (i != null && i > 0 ? i - 1 : i));
+  const nextImage = () => setLightboxIdx(i => (i != null && i < images.length - 1 ? i + 1 : i));
   return (
     <div className="max-w-5xl mx-auto px-6 py-10 pb-24">
 
@@ -478,14 +498,40 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-4">01 — Challenge</p>
         <h2 className="text-2xl font-semibold mb-6">What problem were we solving?</h2>
 
-        <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
-          {activeSub?.challenge
-            ?? (activeSub
-              ? `Describe the core problem for ${activeSub.title}. What was broken, missing, or frustrating? Include any relevant user research findings, business constraints, or existing pain points that framed the challenge.`
-              : project.challenge ?? "Describe the core problem or tension that kicked off this project. What was broken, missing, or frustrating? Include any relevant user research findings, business constraints, or existing pain points that framed the challenge."
-            )
-          }
-        </p>
+        {activeSub?.challengeBlocks ? (
+          <div className="max-w-2xl mb-8 space-y-5">
+            {activeSub.challengeBlocks.map((block, i) => {
+              if (block.type === 'heading') return <h3 key={i} className="text-base font-semibold text-[#c8e6c8] mt-2">{block.text}</h3>;
+              if (block.type === 'paragraph') return <p key={i} className="text-[#a8d8a8] leading-relaxed text-sm">{block.text}</p>;
+              if (block.type === 'list') return (
+                <ul key={i} className="space-y-2">
+                  {block.items.map((item, j) => (
+                    <li key={j} className="flex gap-3 text-[#a8d8a8] text-sm leading-relaxed">
+                      <span className="text-[#4a6a4a] shrink-0 mt-0.5">→</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              );
+              if (block.type === 'quote') return (
+                <blockquote key={i} className="border-l-2 border-[#2a4a2a] pl-4 space-y-1">
+                  <p className="text-[#a8d8a8] text-sm leading-relaxed italic">"{block.text}"</p>
+                  <p className="text-[#6b8f6b] text-xs">{block.attribution}</p>
+                </blockquote>
+              );
+              return null;
+            })}
+          </div>
+        ) : (
+          <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
+            {activeSub?.challenge
+              ?? (activeSub
+                ? `Describe the core problem for ${activeSub.title}. What was broken, missing, or frustrating? Include any relevant user research findings, business constraints, or existing pain points that framed the challenge.`
+                : project.challenge ?? "Describe the core problem or tension that kicked off this project. What was broken, missing, or frustrating? Include any relevant user research findings, business constraints, or existing pain points that framed the challenge."
+              )
+            }
+          </p>
+        )}
         {project.challengeImageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={project.challengeImageUrl} alt="Research / Discovery" className="w-full aspect-[16/7] object-cover object-center rounded-xl" />
@@ -498,87 +544,116 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">02 — Process</p>
         <h2 className="text-2xl font-semibold mb-5">{activeSub ? `How we approached ${activeSub.title}` : "How we got there"}</h2>
-        <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
-          Walk through the design process — explorations, sketches, wireframes, iterations, and
-          pivots. This is where you show your thinking, not just your outcomes.
-        </p>
+        {project.processDescription ? (
+          <div className="max-w-2xl mb-8 space-y-4">
+            {project.processHeading && (
+              <h3 className="text-base font-semibold text-[#c8e6c8]">{project.processHeading}</h3>
+            )}
+            {project.processDescription.split('\n\n').map((para, i) => (
+              <p key={i} className="text-[#a8d8a8] leading-relaxed text-sm">{para}</p>
+            ))}
+          </div>
+        ) : (
+          <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl mb-8">
+            Walk through the design process — explorations, sketches, wireframes, iterations, and
+            pivots. This is where you show your thinking, not just your outcomes.
+          </p>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          {project.processImages?.[0] ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={project.processImages[0]} alt="Sketches" className="aspect-[4/3] object-cover object-center rounded-xl w-full" />
+          {[0, 1, 2].map(i => images[i] ? (
+            <button key={i} onClick={() => setLightboxIdx(i)} className="block aspect-[4/3] rounded-xl overflow-hidden cursor-zoom-in">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={images[i]} alt="" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300" />
+            </button>
           ) : (
-            <ImagePlaceholder label="Sketches" className="aspect-[4/3]" />
-          )}
-          {project.processImages?.[1] ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={project.processImages[1]} alt="Wireframes" className="aspect-[4/3] object-cover object-center rounded-xl w-full" />
-          ) : (
-            <ImagePlaceholder label="Wireframes" className="aspect-[4/3]" />
-          )}
-          {project.processImages?.[2] ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={project.processImages[2]} alt="Iteration" className="aspect-[4/3] object-cover object-center rounded-xl w-full" />
-          ) : (
-            <ImagePlaceholder label="Iteration" className="aspect-[4/3]" />
-          )}
+            <ImagePlaceholder key={i} label={["Sketches","Wireframes","Iteration"][i]} className="aspect-[4/3]" />
+          ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {project.processImages?.[3] ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={project.processImages[3]} alt="User Testing" className="aspect-[16/9] object-cover object-center rounded-xl w-full" />
+          {[3, 4].map(i => images[i] ? (
+            <button key={i} onClick={() => setLightboxIdx(i)} className="block aspect-[16/9] rounded-xl overflow-hidden cursor-zoom-in">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={images[i]} alt="" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300" />
+            </button>
           ) : (
-            <ImagePlaceholder label="User Testing" className="aspect-[16/9]" />
-          )}
-          {project.processImages?.[4] ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={project.processImages[4]} alt="Feedback / Revision" className="aspect-[16/9] object-cover object-center rounded-xl w-full" />
-          ) : (
-            <ImagePlaceholder label="Feedback / Revision" className="aspect-[16/9]" />
-          )}
+            <ImagePlaceholder key={i} label={["User Testing","Feedback / Revision"][i - 3]} className="aspect-[16/9]" />
+          ))}
         </div>
-      </section>
 
-      {/* Solution */}
-      <section className="mb-20">
-        <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">03 — Solution</p>
-        <h2 className="text-2xl font-semibold mb-5">{activeSub ? `${activeSub.title} — final design` : "The final design"}</h2>
-        <ImagePlaceholder label="Final Design — Full Width" className="w-full aspect-[16/8] mb-10" />
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          <div className="space-y-4 text-[#a8d8a8] leading-relaxed text-sm">
-            <p>
-              Describe the solution in detail. What decisions were made and why? How does the
-              final design address the problem defined in the challenge section?
-            </p>
-            <p>
-              Highlight key interactions, design decisions, or principles that make this solution
-              stand out or work particularly well for the user.
-            </p>
+        {project.processPostText && project.processPostText.map((block, i) => (
+          <div key={i} className="mt-12 max-w-2xl">
+            <h3 className="text-base font-semibold text-[#c8e6c8] mb-4">{block.heading}</h3>
+            <div className="space-y-4">
+              {block.body.split('\n\n').map((para, j) => (
+                <p key={j} className="text-[#a8d8a8] leading-relaxed text-sm">{para}</p>
+              ))}
+            </div>
           </div>
-          <div className="space-y-4">
-            <ImagePlaceholder label="Detail View" className="aspect-[4/3]" />
+        ))}
+
+        {/* Lightbox */}
+        {lightboxIdx !== null && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-black/90"
+            style={{ zIndex: 10000 }}
+            onClick={closeLightbox}
+          >
+            <button onClick={closeLightbox} className="absolute top-5 right-5 text-white/70 hover:text-white text-3xl leading-none">✕</button>
+            {lightboxIdx > 0 && (
+              <button onClick={e => { e.stopPropagation(); prevImage(); }} className="absolute left-4 text-white/70 hover:text-white text-4xl px-3 py-2">‹</button>
+            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={images[lightboxIdx]}
+              alt=""
+              className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl"
+              onClick={e => e.stopPropagation()}
+            />
+            {lightboxIdx < images.length - 1 && (
+              <button onClick={e => { e.stopPropagation(); nextImage(); }} className="absolute right-4 text-white/70 hover:text-white text-4xl px-3 py-2">›</button>
+            )}
           </div>
-        </div>
+        )}
       </section>
 
       {/* Outcomes */}
       <section className="mb-20">
         <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">04 — Outcomes</p>
         <h2 className="text-2xl font-semibold mb-8">Results & impact</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {(project.outcomes?.stats ?? [
-            { stat: "00%", label: "Metric one placeholder" },
-            { stat: "00%", label: "Metric two placeholder" },
-            { stat: "00x", label: "Metric three placeholder" },
-          ]).map(({ stat, label }) => (
-            <div key={label} className="border border-[#1e2e1e] rounded-xl px-6 py-8 text-center">
-              <p className="text-4xl font-semibold text-[#c8e6c8] mb-2">{stat}</p>
-              <p className="text-xs text-[#6b8f6b]">{label}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl">
-          {project.outcomes?.reflection ?? "Summarize the impact: what changed after this shipped? What did you learn? What would you do differently? A brief honest reflection makes the case study more credible and human."}
-        </p>
+        {(project.outcomes?.stats?.length ?? 0) > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {project.outcomes!.stats.map(({ stat, label }) => (
+              <div key={label} className="border border-[#1e2e1e] rounded-xl px-6 py-8 text-center">
+                <p className="text-4xl font-semibold text-[#c8e6c8] mb-2">{stat}</p>
+                <p className="text-xs text-[#6b8f6b]">{label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {project.outcomes?.reflectionHeading || project.outcomes?.reflectionItems ? (
+          <div className="max-w-2xl space-y-4">
+            {project.outcomes.reflectionHeading && (
+              <h3 className="text-base font-semibold text-[#c8e6c8]">{project.outcomes.reflectionHeading}</h3>
+            )}
+            {project.outcomes.reflectionItems && (
+              <ul className="space-y-3">
+                {project.outcomes.reflectionItems.map((item, i) => (
+                  <li key={i} className="flex gap-3 text-[#a8d8a8] leading-relaxed text-sm">
+                    <span className="text-[#4a6a4a] mt-0.5 shrink-0">—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {project.outcomes?.reflection && (
+              <p className="text-[#a8d8a8] leading-relaxed text-sm">{project.outcomes.reflection}</p>
+            )}
+          </div>
+        ) : (
+          <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl">
+            {project.outcomes?.reflection ?? "Summarize the impact: what changed after this shipped? What did you learn? What would you do differently? A brief honest reflection makes the case study more credible and human."}
+          </p>
+        )}
       </section>
 
       {/* Divider */}
