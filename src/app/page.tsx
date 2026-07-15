@@ -18,7 +18,7 @@ const workTabs = ["UX", "Graphic Design", "Motion", "Photography", "Failures"] a
 
 const workProjects: Record<string, Project[]> = {
   UX: [
-    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", tools: "Figma, Claude Code, Zoom, Granola, UseBerry, Linear", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/jobnimbus-mobile-app/hero.png", thumbnailUrl: "/jobnimbus-mobile-app/header.png", subProjects: [{ title: "Web Parity", challenge: "When I joined JobNimbus the mobile app covered roughly 40% of what the web product could do — and users felt it. Sales reps were hauling laptops to job sites or waiting until they got back to the office to log notes, update statuses, and fill out forms. The goal was to close that gap to 90% parity within six months, prioritizing the workflows that field crews and sales reps touched every day. The challenge wasn't just feature count — it was figuring out which web capabilities actually mattered in a mobile context and designing them to feel native, not ported.", outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } }, { title: "Photo Reports", challengeImageUrl: "/jobnimbus-mobile-app/roofer-photos.png", processHeading: "How To Convince Your Team",
+    { title: "JobNimbus Mobile App", category: "Mobile UX", year: "2022 – 2026", tools: "Figma, Claude Code, Zoom, Granola, UseBerry, Linear", client: "Roofers", tagline: "JobNimbus is a CRM built for roofing and home exteriors contractors — helping sales reps track leads, coordinate production with homeowners, and manage the entire job lifecycle from signed contract to finished roof and final payment.", heroImageUrl: "/jobnimbus-mobile-app/hero.png", thumbnailUrl: "/jobnimbus-mobile-app/header.png", subProjects: [{ title: "Web Parity", challengeImageUrl: "/jobnimbus-mobile-app/offsite.jpg", challenge: "When I joined JobNimbus the mobile app covered roughly 40% of what the web product could do — and users felt it. Sales reps were hauling laptops to job sites or waiting until they got back to the office to log notes, update statuses, and fill out forms. The goal was to close that gap to 90% parity within six months, prioritizing the workflows that field crews and sales reps touched every day. The challenge wasn't just feature count — it was figuring out which web capabilities actually mattered in a mobile context and designing them to feel native, not ported.", processDescription: "Web parity felt like a race we could never quite win. We would ship a feature, close a gap, and before the release notes were even written, something new had moved the line. A new capability on the web side. A company acquisition that added an entire product surface overnight. The gap that was supposed to close kept finding new ways to grow.\n\nWe called an offsite. Got the team in a room and asked a hard question: what would it actually take to stop chasing and start shipping ahead? The answer came down to discipline.\n\nWe made a decision that felt almost too simple: strict adherence to the design system, no exceptions. Every component, every pattern — if it didn't already exist in our library, we didn't invent something new. This meant engineers could move on their own. Small decisions that previously required a design review could be made directly, without a handoff, without a queue. We removed ourselves as a bottleneck for the things that didn't need us.\n\nThen we cranked. Six months of focused delivery. The release gap that had stretched to four months closed to about one. Not perfect — but we had gone from chasing to keeping pace.\n\nThe last piece was a structural one. I built a direct connection to designers across other teams so I could see what was coming before it arrived. I would research and design ahead of the roadmap, then hand findings and mocks to my PM to prioritize. By the time features were ready to ship, the design was already done. We went from reacting to landing features within weeks of each other.", outcomes: { stats: [{ stat: "3.4★", label: "App store rating before" }, { stat: "4.8★", label: "App store rating after" }, { stat: "+1.4", label: "Stars gained" }], reflection: "When I joined the team the JobNimbus mobile app sat at a 3.4-star average across the App Store and Google Play — largely driven by crashes, missing features, and a UI that hadn't kept pace with the web product. Over four years we methodically closed the gap: shipping web parity features, rebuilding photo workflows, overhauling sub-contractor access, and introducing inline photo annotations. The app now holds a 4.8-star average. The biggest lesson: rating improvements follow trust improvements. Every time we reduced friction in a high-frequency workflow, reviews moved." } }, { title: "Photo Reports", challengeImageUrl: "/jobnimbus-mobile-app/roofer-photos.png", processHeading: "How To Convince Your Team",
         processDescription: "Nobody believed it was that bad until they lived it.\n\nI took my PM and one of our engineers up to the fake rooftop we keep in our main office — a staging area built to test field workflows — and handed them a phone. The task was simple: build a photo report using only JobNimbus. No workarounds, no desktop, just the app as a contractor would use it.\n\nThe frustrations surfaced fast. They couldn't find where to start. When they did, they hit a wall of small indignities: images that took forever to upload, a layout they couldn't control, output that looked nothing like something you'd hand a homeowner. By the time they made it off the roof, the case was made — not by a spreadsheet or a research deck, but by fifteen minutes of trying to do the job themselves.", processImages: ["/jobnimbus-mobile-app/photo-report-1.jpeg", "/jobnimbus-mobile-app/photo-report-2.jpg", "/jobnimbus-mobile-app/photo-report-3.jpg", "/jobnimbus-mobile-app/photo-report-4.jpg", "/jobnimbus-mobile-app/photo-report-5.jpg"], challengeBlocks: [
   { type: "heading", text: "Contractors were stitching together three apps to do one job" },
   { type: "paragraph", text: "When I mapped how our customers actually assembled a photo report, the workflow looked like this:" },
@@ -568,26 +568,26 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
             pivots. This is where you show your thinking, not just your outcomes.
           </p>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          {[0, 1, 2].map(i => images[i] ? (
-            <button key={i} onClick={() => setLightboxIdx(i)} className="block aspect-[4/3] rounded-xl overflow-hidden cursor-zoom-in">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={images[i]} alt="" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300" />
-            </button>
-          ) : (
-            <ImagePlaceholder key={i} label={["Sketches","Wireframes","Iteration"][i]} className="aspect-[4/3]" />
-          ))}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[3, 4].map(i => images[i] ? (
-            <button key={i} onClick={() => setLightboxIdx(i)} className="block aspect-[16/9] rounded-xl overflow-hidden cursor-zoom-in">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={images[i]} alt="" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300" />
-            </button>
-          ) : (
-            <ImagePlaceholder key={i} label={["User Testing","Feedback / Revision"][i - 3]} className="aspect-[16/9]" />
-          ))}
-        </div>
+        {images.slice(0, 3).some(Boolean) && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            {[0, 1, 2].map(i => images[i] ? (
+              <button key={i} onClick={() => setLightboxIdx(i)} className="block aspect-[4/3] rounded-xl overflow-hidden cursor-zoom-in">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={images[i]} alt="" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300" />
+              </button>
+            ) : null)}
+          </div>
+        )}
+        {images.slice(3, 5).some(Boolean) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[3, 4].map(i => images[i] ? (
+              <button key={i} onClick={() => setLightboxIdx(i)} className="block aspect-[16/9] rounded-xl overflow-hidden cursor-zoom-in">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={images[i]} alt="" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300" />
+              </button>
+            ) : null)}
+          </div>
+        )}
 
         {activeSub?.title === "Sub Contractors" && (
           <div className="mt-10 space-y-6">
@@ -673,7 +673,7 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
           <div className="mt-12 space-y-6">
             <h3 className="text-base font-semibold text-[#c8e6c8]">Prototype</h3>
             <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl">
-              Paragraph placeholder — describe the prototype, what it demonstrated, and how it was used in testing or stakeholder reviews.
+              A simple tool built into the app that lets crews organize job-site photos into sections, add descriptions, timestamps, and annotations, and generate a clean PDF to send directly to insurance companies and homeowners.
             </p>
             <video
               src="/jobnimbus-mobile-app/photo-reports-video.mov"
