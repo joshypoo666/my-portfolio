@@ -589,6 +589,46 @@ function ProjectView({ project, onBack }: { project: Project; onBack: () => void
           ))}
         </div>
 
+        {activeSub?.title === "Sub Contractors" && (
+          <div className="mt-10 space-y-6">
+            <div className="max-w-2xl space-y-3">
+              <h3 className="text-base font-semibold text-[#c8e6c8]">Learnings</h3>
+              <p className="text-[#a8d8a8] leading-relaxed text-sm">
+                One of the biggest things we walked away with was how little we actually understood about who was doing the work. We went in thinking about "subcontractors" as a single group. What we found was a whole chain of people: foremen, sub-foremen, subcontractors, and builders. Each one plays a different role, and the gaps between them are significant.
+              </p>
+              <p className="text-[#a8d8a8] leading-relaxed text-sm">
+                The communication between the main office and the foreman leading the crew on the ground was surprisingly basic. Email, phone calls, text messages, and occasionally a PDF of the work order sent over text. That work order is the document that kicks off the entire job. It tells the crew what to do, where to go, and what materials are involved. Getting it to the right person in time, in a format they can actually use, was not a solved problem.
+              </p>
+              <p className="text-[#a8d8a8] leading-relaxed text-sm">
+                Experienced foremen often had the job details memorized. They were not using calendars. They were not using apps. They were running entire crews out of their heads and their inboxes. Things got missed. Things got misread. And nobody had a reliable way to know what version of the work order was current.
+              </p>
+              <p className="text-[#a8d8a8] leading-relaxed text-sm">
+                The honest reaction from our team was surprise. Not at any one person, but at the size of the gap between what these two sides of the business needed and the tools they were actually using to bridge it. It reframed the whole project from "build a feature for subcontractors" to "figure out how to connect two worlds that are barely talking to each other."
+              </p>
+            </div>
+            <img src="/jobnimbus-mobile-app/org-chart.png" alt="Org chart" className="w-full h-auto rounded-xl" />
+          </div>
+        )}
+
+        {activeSub?.title === "Sub Contractors" && (
+          <section className="mb-20 mt-12">
+            <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">03 — Prototype / Design</p>
+            <div className="space-y-6">
+              <h2 className="text-2xl font-semibold mb-5">Subcontractor Experience</h2>
+              <p className="text-[#a8d8a8] leading-relaxed text-sm max-w-2xl">
+                Placeholder — describe the design direction here. What did the prototype focus on? How did you translate field research into screens? What were the key flows or moments you were solving for?
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {["/jobnimbus-mobile-app/sub-app-1.png", "/jobnimbus-mobile-app/sub-app-2.png", "/jobnimbus-mobile-app/sub-app-3.png"].map((src) => (
+                  <div key={src} className="rounded-xl overflow-hidden bg-[#161c16]">
+                    <img src={src} alt="" className="w-full h-auto" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {activeSub?.title === "Photo Reports" && (
           <section className="mb-20 mt-12">
             <p className="text-xs tracking-[0.25em] uppercase text-[#4a6a4a] mb-3">03 — Research & Design</p>
